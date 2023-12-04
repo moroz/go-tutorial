@@ -1,5 +1,9 @@
 [book]
 authors = ["Karol Moroz"]
-language = "en"
+language = "zh-Hant-TW"
 multilingual = false
 src = "src"
+
+[output.html]
+git-repository-url = "https://github.com/moroz/go-tutorial"
+preferred-dark-theme = "ayu"
