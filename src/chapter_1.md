@@ -9,3 +9,14 @@ HTTP 是一種協議，也就是說，一種規定兩臺電腦之間的溝通方
 提供資料的機器叫作伺服器（英：server），而請求資料的那一臺電腦則稱為客戶端（英：client）。
 
 尚未接觸 HTTP 協議的同學可能會對
+
+## 初始化專案
+
+```shell
+mkdir -p ~/projects/go-tutorial/01-server
+cd ~/projects/go-tutorial/01-server
+```
+
+```shell
+go mod init go-tutorial/01-server
+```

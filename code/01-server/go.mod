@@ -1,3 +1,3 @@
-module github.com/moroz/go-tutorial/code
+module go-tutorial/01-server
 
 go 1.20
