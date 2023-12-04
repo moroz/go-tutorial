@@ -20,3 +20,26 @@ cd ~/projects/go-tutorial/01-server
 ```shell
 go mod init go-tutorial/01-server
 ```
+
+```go
+package main
+
+import (
+	"log"
+	"net/http"
+)
+
+func HandleRequest(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("<h1>Hello from HandleRequest!</h1>"))
+}
+
+func main() {
+	log.Println("Listening on :3000...")
+	log.Fatal(http.ListenAndServe(":3000", http.HandlerFunc(HandleRequest)))
+}
+```
+
+<figure>
+<img src="/images/01/01.png" />
+<caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
+</figure>

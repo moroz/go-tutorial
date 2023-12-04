@@ -233,3 +233,7 @@ kbd {
     font-style: italic;
 }
 
+figure {
+  margin: 3rem 2rem;
+  text-align: center;
+}
