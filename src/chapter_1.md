@@ -26,25 +26,19 @@ cd ~/projects/go-tutorial/01-server
 go mod init go-tutorial/01-server
 ```
 
+在這個資料夾裡面，建立一個新檔案 `main.go`：
+
 ```go
-package main
-
-import (
-	"log"
-	"net/http"
-)
-
-func HandleRequest(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>Hello from HandleRequest!</h1>"))
-}
-
-func main() {
-	log.Println("Listening on :3000...")
-	log.Fatal(http.ListenAndServe(":3000", http.HandlerFunc(HandleRequest)))
-}
+{{#include ../code/01-server/main.go}}
 ```
 
-<figure>
+
+
+```go
+{{#include ../code/01-server/main.go:13:15}}
+```
+
+<figure class="bordered-figure">
 <img src="/images/01/01.png" />
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
 </figure>
