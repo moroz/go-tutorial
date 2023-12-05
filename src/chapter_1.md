@@ -48,6 +48,12 @@ go mod init go-tutorial/01-server
 {{#include ../code/01-server/main.go:9}}
 ```
 
+至於為什麼要用 `log.Println` 而不是 `fmt.Println`，那就是因為 `log.Println` 除了文字，還會顯示當下的時間與日期，如下：
+
+```plain
+2023/12/06 00:54:30 Listening on :3000...
+```
+
 這一行反而比較複雜：
 
 ```go
