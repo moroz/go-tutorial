@@ -12,12 +12,17 @@ HTTP 是一種協議，也就是說，一種規定兩臺電腦之間的溝通方
 
 ## 初始化專案
 
-```shell
-mkdir -p ~/projects/go-tutorial/01-server
-cd ~/projects/go-tutorial/01-server
-```
+首先，我們來建立一個新專案。使用 `mkdir -p` 建立一個資料夾：
 
 ```shell
+mkdir -p ~/projects/go-tutorial/01-server
+```
+
+`mkdir` 為 _make directory_ 的縮寫，而 `-p` 代表我們希望建立中間的資料夾。
+然後進入稍早建立的資料夾並初始化新的專案 `go-tutorial/01-server`：
+
+```shell
+cd ~/projects/go-tutorial/01-server
 go mod init go-tutorial/01-server
 ```
 
