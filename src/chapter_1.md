@@ -26,11 +26,15 @@ cd ~/projects/go-tutorial/01-server
 go mod init go-tutorial/01-server
 ```
 
+## 第一個伺服器
+
 在這個資料夾裡面，建立一個新檔案 `main.go`：
 
 ```go
 {{#include ../code/01-server/main.go}}
 ```
+
+### 程式碼分析
 
 我們來分析這段程式碼。首先，這個檔案宣告 `package main`。在一個 Go 程式裏面，Go 都會先執行 `package main` 裡面的 `main` 函數：
 
@@ -61,7 +65,10 @@ func ListenAndServe(addr string, handler Handler) error
 這個函數的第一個參數為要希望監聽的端口，而第二個函數為一個 `http.Handler`。這個函數將返回一個錯誤。由於將這個函數的返回值傳達給 `log.Fatal`，如果監聽的動作發生問題，`log.Fatal` 就會印出錯誤並結束這段程式。
 如果沒有出錯，那麼 `http.ListenAndServe` 將持續監聽我們所指定的端口並使用 `handler` 處理 HTTP 請求。
 
-至於 `http.ListenAndServe` 的第二個參數，`handler`，它的類型為 `http.Handler`：
+### `http.Handler` 的用法
+
+至於 `http.ListenAndServe` 的第二個參數，`handler`，它的類型為 `http.Handler`。
+`http.Handler` 是一個介面類型（英：interface），它的方法簽名要求一個方法：
 
 ```go
 package http // import "net/http"
@@ -71,13 +78,53 @@ type Handler interface {
 }
 ```
 
-`http.Handler` 為一個介面（英：interface），它要求
+### `http.HandlerFunc` 的用法
+
+`http` 這個 `package` 內另外提供了一種類型，名為 `http.HandlerFunc`：
+
+```go
+package http // import "net/http"
+
+type HandlerFunc func(ResponseWriter, *Request)
+    The HandlerFunc type is an adapter to allow the use of ordinary functions
+    as HTTP handlers. If f is a function with the appropriate signature,
+    HandlerFunc(f) is a Handler that calls f.
+
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
+```
+
+`http.HandlerFunc` 是最簡單的拿一般函數來處理 HTTP 請求的技巧。只要我們宣告一個接受正確參數的函數：`func(http.ResponseWriter, *http.Request)`，就可以將它的類型轉換成 `http.HandlerFunc`：
 
 ```go
 {{#include ../code/01-server/main.go:13:15}}
 ```
 
+這個函數將 `<h1>Hello from HandleRequest!</h1>` 這段文字寫到一個 HTTP 請求的回應。然後，這樣定義的函數就可以當作 `http.HandlerFunc`：
+
+```go
+http.HandlerFunc(HandleRequest)
+```
+
+這樣的表達式就會符合 `http.Handler` 的要求，因此可以放在 `http.ListenAndServe` 第二個參數的位置：
+
+```go
+{{#include ../code/01-server/main.go:10}}
+```
+
+## 執行這段程式碼
+
+現在，我們可以試著在專案的資料夾執行這段程式。如果輸入無誤，程式應該會編譯好，然後顯示 `Listening on :3000...`
+
+```shell
+$ go run .
+2023/12/06 00:54:30 Listening on :3000...
+```
+
+打開瀏覽器，瀏覽至 `http://localhost:3000` 或 `http://127.0.0.1:3000` 應該就會看到以下畫面：
+
 <figure class="bordered-figure">
 <img src="/images/01/01.png" />
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
 </figure>
+
+雖然我們沒有特別告知瀏覽器我們的內容將會返回 HTML，但由於我們所返回的內容**看起來**像 HTML，因此三大瀏覽器通通都將這段文字理解成 HTML。
