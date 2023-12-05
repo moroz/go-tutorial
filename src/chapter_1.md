@@ -32,7 +32,46 @@ go mod init go-tutorial/01-server
 {{#include ../code/01-server/main.go}}
 ```
 
+我們來分析這段程式碼。首先，這個檔案宣告 `package main`。在一個 Go 程式裏面，Go 都會先執行 `package main` 裡面的 `main` 函數：
 
+```go
+{{#include ../code/01-server/main.go:8:11}}
+```
+
+這一行將在螢幕上列出 `Listening on :3000...` 這段文字給人類看：
+
+```go
+{{#include ../code/01-server/main.go:9}}
+```
+
+這一行反而比較複雜：
+
+```go
+{{#include ../code/01-server/main.go:10}}
+```
+
+`http.ListenAndServe` 將試圖在本地的 3000 號端口（英：port）啟動一個 HTTP 伺服器。`http.ListenAndServe` 的宣告如下：
+
+```go
+package http // import "net/http"
+
+func ListenAndServe(addr string, handler Handler) error
+```
+
+這個函數的第一個參數為要希望監聽的端口，而第二個函數為一個 `http.Handler`。這個函數將返回一個錯誤。由於將這個函數的返回值傳達給 `log.Fatal`，如果監聽的動作發生問題，`log.Fatal` 就會印出錯誤並結束這段程式。
+如果沒有出錯，那麼 `http.ListenAndServe` 將持續監聽我們所指定的端口並使用 `handler` 處理 HTTP 請求。
+
+至於 `http.ListenAndServe` 的第二個參數，`handler`，它的類型為 `http.Handler`：
+
+```go
+package http // import "net/http"
+
+type Handler interface {
+    ServeHTTP(ResponseWriter, *Request)
+}
+```
+
+`http.Handler` 為一個介面（英：interface），它要求
 
 ```go
 {{#include ../code/01-server/main.go:13:15}}
