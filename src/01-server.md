@@ -24,6 +24,46 @@ cd ~/projects/go-tutorial/01-server
 go mod init go-tutorial/01-server
 ```
 
+## 建立 Git 版本庫
+
+開發任何軟體時，即使只是學習專案，使用一個版本控制系統是一個很好的慣例。
+讓我們在學習專案的資料夾裡面建立一個 Git 版本庫：
+
+```shell
+cd ~/projects/go-tutorial
+git init
+```
+
+Git 版本庫的變更單位稱作 commit，一個 commit 可以結合對於多個檔案的更動。
+將 `~/projects/go-tutorial` 及所有子資料夾加到下一個 commit，借此告訴 Git，我們打算將所有更動加到下一個版本。
+此動作的英文叫作 _stage for commit_，而對應的終端機指令為 `git add`。
+
+此指令這後面不要忽略 `.`（一個半形句點），表示「當前資料夾」。加了當前資料夾也會一起加這個資料夾的所有子資料夾，包含稍早初始化的 `01-server`：
+
+```shell
+git add .
+```
+
+最後，儲存 commit：
+
+```shell
+git commit -m "Initial commit"
+```
+
+這是這個版本庫的第一個 commit，所以 _initial commit_ 就是「第一個版本」的意思。
+每一個 commit 都必須包含一個 _commit message_，通常為這個版本80字符以內的英文描述。
+
+若初次使用 Git，你的本地環境尚未設定 Git 信箱與姓名，這種情況下 Git 不會讓你完成 commit。請先設定 Git 的預設信箱與姓名：
+
+```shell
+git config --global user.name "Xiaoming Wang" # 填寫自己的資料
+git config --global user.email "xiaoming.wang@example.com"
+```
+
+<!-- TODO: Get an example of an error message in a fresh environment -->
+
+設定完本地 Git 版本庫，建議同步至 Github 當作備份與學習進度的紀錄。
+
 ## 第一個伺服器
 
 在這個資料夾裡面，建立一個新檔案 `main.go`：
