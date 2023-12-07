@@ -8,29 +8,14 @@
 為不同路徑提供不同內容的功能稱為「路由」（英：routing），而負責路由的程式則稱為「路由器」（英：router）。
 如果這個說法讓你想到家裡的 Wi-Fi 分享器，那就是因為這個機器的功能跟路由器的功能很像：網路分享器負責根據 IP 址將資料傳送到不同機器。
 
+## 專案介紹
+
 這堂課要開發的小程式將會顯示三個頁面：
 
 * `/`：首頁。
 * `/contact`：聯絡資訊頁面。
 * 任何其他網址：找不到頁面，又名 404。
 
-首先要明白，如何才能查詢一個請求的路徑。
-一個網頁的網址都有一種統一的格式，該格式叫作 URL（Uniform Resource Locator，統一資源定位符）。
-各位同學肯定看過各式各樣的 URL，範例如下：
-
-```
-https://tutorial.moroz.dev/02-naive-routing
-```
-
-這個 URL 可以進一步分析為：
-
-```
-https -- scheme（協定名）
-tutorial.moroz.dev -- host（主機名）
-/02-naive-routing -- path（路徑）
-```
-
-<!-- 至於404這個數字，我想大多數同學都熟悉這個錯誤號碼。 -->
 讓我們建立一個新的小專案：
 
 ```shell
@@ -46,13 +31,87 @@ go mod init go-tutorial/02-naive-routing
 ```
 
 這個小程式與上一堂課差不多一樣。首先，`main()` 的功能一樣：這個程式將監聽 3000 端口並用 `HandleRequest` 這個函數處理請求。
+`HandleRequest` 目前是空的，我們要找辦法在 `HandleRequest` 裡針對不同路徑提供不同的內容。
+
+## 查詢請求路徑
+
+一個網頁的網址都符合一種統一的格式，名叫 URL（Uniform Resource Locator，統一資源定位符）。
+各位同學肯定看過各式各樣的 URL，有的可能也聽過 URL 這個說法。
+以下為一個簡單的 URL 範例：
+
+```
+https://tutorial.moroz.dev/02-naive-routing
+```
+
+這個 URL 可以進一步分析為：
+
+```
+https -- scheme（協定名）
+tutorial.moroz.dev -- host（主機名）
+/02-naive-routing -- path（路徑）
+```
+
+我們在 `HandleRequest` 裡面將會需要請求路徑（request path），一般而言在文檔中搜尋英文的關鍵字是還不錯的查詢資料的策略。
+`HandleRequest` 接受兩個參數，類型分別為 `http.ResponseWriter` 與 `*http.Request`（`http.Request` 的指標）。
+`ResponseWriter` 的名稱為 response（回應）writer（寫入器），看起來與我們要找的資料無關。
+反而，`Request` 就是我們需要的「請求」，我們可以看看有沒有提供路徑資訊。
+各位同學可以自己執行以下指令來看看 `http.Request` 的屬性：
+
+```shell
+$ go doc http.Request
+```
+
+可見這個資料結構屬性很多，如果直接用看的會有點慢，但我們可以用另外一個指令來篩選此指令的輸出資料：
+
+```shell
+# grep 可以拿來在 go doc 裡搜尋 path 這個關鍵字
+# -i (case-insensitive) 不分大小寫的搜尋
+# -C10 (context) 顯示關鍵字上下各十行內容
+
+$ go doc http.Request | grep -C10 -i path
+        // Go's HTTP client does not support sending a request with
+        // the CONNECT method. See the documentation on Transport for
+        // details.
+        Method string
+
+        // URL specifies either the URI being requested (for server
+        // requests) or the URL to access (for client requests).
+        //
+        // For server requests, the URL is parsed from the URI
+        // supplied on the Request-Line as stored in RequestURI.  For
+        // most requests, fields other than Path and RawQuery will be
+        // empty. (See RFC 7230, Section 5.3)
+        //
+        // For client requests, the URL's Host specifies the server to
+        // connect to, while the Request's Host field optionally
+        // specifies the Host header value to send in the HTTP
+        // request.
+        URL *url.URL
+
+        // The protocol version for incoming server requests.
+        //
+```
+
+上方搜尋結果可見，`http.Request` 本身沒有叫 `Path` 的屬性，但是有叫 `URL` 的屬性，其類型為 `*url.URL`（`url.URL` 的指標）。
+以下指令可以看 `url.URL` 的 `Path` 屬性的定義：
+
+```go
+$ go doc url.URL.Path             
+package url // import "net/url"
+
+type URL struct {
+    Path string  // path (relative paths may omit leading slash)
+
+    // ... other fields elided ...
+}
+```
+
+賓果！我們找到了一個路徑！這代表我們可以根據 `r`（`*http.Request`）的 `URL`（`*url.URL`）的 `Path`（`string`）判斷請求路徑！
+
 至於 `HandleRequest` 呢，差別在於，上一個程式對每一個請求都返回一模一樣的回應，而這個程式使用 `switch` 條件判斷，根據 `r.URL.Path` 的值改變邏輯：
 
 ```go
-{{#include ../code/02-naive-routing/iterations/01/main.go:13:17}}
-
-    // ... 處理其他路徑
-{{#include ../code/02-naive-routing/iterations/01/main.go:26:27}}
+{{#include ../code/02-naive-routing/iterations/02/main.go:13:24}}
 ```
 
 何謂 `r.URL.Path`？`r` 為 `HandleRequest` 的第二個參數，它的類型為 `http.Request`，它是一種描述 HTTP 請求的資料結構（`struct`）。

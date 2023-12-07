@@ -11,5 +11,14 @@ func main() {
 }
 
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
-	// do the routing...
+	switch r.URL.Path {
+	case "/":
+		// 顯示首頁
+
+	case "/contact":
+		// 顯示聯絡資訊網站
+
+	default:
+		// 忽略任何其他路徑：顯示 404 錯誤
+	}
 }
