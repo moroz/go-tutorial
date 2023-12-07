@@ -25,7 +25,7 @@ Ruby on Rails 早期的賣點就是，寫程式的時候沒必要了解程式的
 
 寫此篇的時候我有兩臺電腦，一臺是我私人的 Dell XPS，作業系統為 Linux Mint，另一臺是公司提供給我的14吋蘋果 MacBook Pro。不論使用 Linux 還是 macOS，開發經驗都差不多。至於 MS Windows，我們將在本課程所使用的工具：Go, PostgreSQL 與 Node.js 也都可以在 Windows 10 以上的作業系統上正常使用。然而，由於我已經很多年沒有使用 MS Windows 系統，我在學習的途中無法給讀者太多相關的幫助。如果你用的是一臺 PC，我會建議你考慮在上面安裝一個 Linux 發行版，Debian、Manjaro 與 Linux Mint 都是很好的選擇。
 
-## 安全所需軟體
+## 安裝所需軟體
 
 為了參與這堂課，請各位同學預先安裝最新的 Go。寫本文的時候最新的版本為 1.21.4。
 使用 MS&nbsp;Windows 作業系統的同學可以至 <a href="https://go.dev/dl/" target="_blank" rel="noopener noreferrer">Go 官方網站</a>下載安裝包。
