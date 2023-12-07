@@ -137,7 +137,8 @@ type HandlerFunc func(ResponseWriter, *Request)
 func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request)
 ```
 
-`http.HandlerFunc` 是最簡單的拿一般函數來處理 HTTP 請求的技巧。只要我們宣告一個接受正確參數的函數：`func(http.ResponseWriter, *http.Request)`，就可以將它的類型轉換成 `http.HandlerFunc`：
+`http.HandlerFunc` 是最簡單的拿一般函數來處理 HTTP 請求的技巧。
+只要我們宣告一個接受正確參數的函數：`func(http.ResponseWriter, *http.Request)`，就可以將它的類型轉換成 `http.HandlerFunc`：
 
 ```go
 {{#include ../code/01-server/main.go:13:15}}
