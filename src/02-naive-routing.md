@@ -136,6 +136,42 @@ type URL struct {
 {{#include ../code/02-naive-routing/iterations/02/main.go:13:24}}
 ```
 
+## 實作首頁與聯絡資訊
+
+知道如何判斷請求路徑之後，我們就可以來寫出首頁與聯絡資訊頁面：
+
+```go
+{{#include ../code/02-naive-routing/iterations/03/main.go}}
+```
+
+現在，我們可以測試這個程式的功能：
+
+```shell
+$ go run .
+2023/12/09 02:05:01 Listening on :3000...
+```
+
+<figure class="bordered-figure">
+<img src="/images/02/main.png" />
+<caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
+</figure>
+
+<figure class="bordered-figure">
+<img src="/images/02/contact.png" />
+<caption>點擊「聯絡」的聯絡後的畫面。</caption>
+</figure>
+
+然後，如果現在瀏覽到一個不存在的頁面的話，只看得到空白一片：
+
+<figure class="bordered-figure">
+<img src="/images/02/non-existent.png" />
+<caption>瀏覽至不存在的頁面後只看得到空白一片。</caption>
+</figure>
+
+大多數的讀者或許在網路上看過 404 這個數字，意思就是「找不到頁面」。
+照理來說，如果使用者瀏覽到一個不存在的畫面的話，我們應該返回一個 404 錯誤頁面，並在頁面裡顯示首頁的連接。
+然而，在我們能夠成功完成這個任務之前，應該要先明白錯誤狀態碼以及 `Write` 的使用方法。
+
 ## `http.ResponseWriter` 的 `Write` 方法
 
 在上一堂課裡面，我們的 `HandleRequest` 都只有顯示一樣的內容：
@@ -186,7 +222,7 @@ $ go doc http.StatusOK | grep StatusOK
 ```
 
 以上代表，如果沒有指定其他回應狀態碼，Go 將會預設返回 200 OK，代表請求處理成功。
-大多人都知道 404 代表「找不到頁面」，Go 有沒有相關常數？
+而至於 404 錯誤碼，Go 有沒有相關常數？
 
 ```go
 $ go doc http.StatusOK | grep 404
@@ -197,4 +233,9 @@ HTTP 協議指定了幾十種狀態碼，要看 Go 標準函數庫所定義的�
 相關的標準文件為 <a href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" target="_blank" rel="noopener noreferrer">Hypertext Transfer Protocol (HTTP) Status Code Registry</a>。
 另外，想要進一步了解狀態碼的讀者可以看 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status" target="_blank" rel="noopener noreferrer">MDN: HTTP 狀態碼</a>。
 
-除了，`Write` 將會根據我們所寫入的內容前512個字元判斷所寫入的格式並設定回應的 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer">`Content-Type` 標頭</a>，這解釋了為什麼之前我們返回**看起來**像 HTML 的內容，瀏覽器就將它理解成 HTML 內容。
+除了設定預設狀態碼，`Write` 將會根據我們所寫入的內容前512個字元猜測所寫入的內容類型，並按照猜測結果設定回應的 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer">`Content-Type` 標頭</a>。
+這就是為什麼在第一章，當我們返回一段**看起來**像 HTML 的內容，瀏覽器就將它理解成 HTML 內容。
+其實，瀏覽器本身沒有在猜測任何事，猜測的部分完全由 Go 進行。
+
+## 404 錯誤的處理方法
+
