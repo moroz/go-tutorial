@@ -152,19 +152,19 @@ $ go run .
 ```
 
 <figure class="bordered-figure">
-<img src="/images/02/main.png" />
+<a href="/images/02/main.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/main.png" /></a>
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
 </figure>
 
 <figure class="bordered-figure">
-<img src="/images/02/contact.png" />
-<caption>點擊「聯絡」的聯絡後的畫面。</caption>
+<a href="/images/02/contact.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/contact.png" /></a>
+<caption>點擊「聯絡」的連接後的畫面。</caption>
 </figure>
 
 然後，如果現在瀏覽到一個不存在的頁面的話，只看得到空白一片：
 
 <figure class="bordered-figure">
-<img src="/images/02/non-existent.png" />
+<a href="/images/02/non-existent.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/non-existent.png" /></a>
 <caption>瀏覽至不存在的頁面後只看得到空白一片。</caption>
 </figure>
 
@@ -174,14 +174,19 @@ $ go run .
 
 ## `http.ResponseWriter` 的 `Write` 方法
 
-在上一堂課裡面，我們的 `HandleRequest` 都只有顯示一樣的內容：
+目前，我們已經實作的兩個畫面都用同樣的方式返回結果，也就是說，直接呼叫 `w` 這個變數的 `Write` 方法：
 
 ```go
-{{#include ../code/01-server/main.go:13:15}}
+{{#include ../code/02-naive-routing/iterations/03/main.go:15:20}}
 ```
 
-從這一段程式可見，返回一個 HTML 回應的方式就是呼叫 `w` 的 `Write` 方法。
-`w` 的類型為 `http.ResponseWriter`，我們來看看 `Write` 方法的文檔：
+我們知道 `HandleRequest` 接受兩個參數，而名叫 `w` 的那個參數類型為 `http.ResponseWriter`：
+
+```go
+{{#include ../code/02-naive-routing/iterations/03/main.go:13}}
+```
+
+以下指令可檢查 `http.ResponseWriter` 的 `Write` 方法的文檔：
 
 ```go
 $ go doc http.ResponseWriter.Write
@@ -214,24 +219,47 @@ type ResponseWriter interface {
 }
 ```
 
-由此可見，如果在呼叫 `Write` 沒有使用 `WriteHeader`，`Write` 將會設定預設的回應狀態碼 `http.StatusOK`：
+`http.ResponseWriter` 的 `Write` 方法接受一個參數，其類型為 `[]byte`（二進制資料），並返回兩個值：`(int, error)`（一個整數與一個錯誤）。
+目前，它的返回值對我們來說不重要，然而文檔裡第二段文字包含了重要的解釋：
+
+> If `WriteHeader` has not yet been called, `Write` calls `WriteHeader(http.StatusOK)` before writing the data.
+
+如果在呼叫 `Write` 之前沒有使用 `WriteHeader`，`Write` 將會呼叫該方法來設定回應狀態碼 `http.StatusOK`。
+`http.StatusOK` 為 `http` 包所定義的常數。檢查 `http.StatusOK` 的文檔：
+
+```
+go doc http.StatusOK
+```
+
+由於 `http` 源代碼中，所有狀態碼常數都是一起定義的，因此執行以上指令也會同時印出 `http` 定義的所有狀態狀態碼常數，內容有點太多，但可以用 `grep` 來搜尋：
 
 ```go
 $ go doc http.StatusOK | grep StatusOK
         StatusOK                   = 200 // RFC 9110, 15.3.1
 ```
 
-以上代表，如果沒有指定其他回應狀態碼，Go 將會預設返回 200 OK，代表請求處理成功。
-而至於 404 錯誤碼，Go 有沒有相關常數？
+原來 `StatusOK` 代表狀態碼 200。
+從 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/200" target="_blank" rel="noopener noreferrer">
+MDN: 200 OK</a> 的文檔裡可以得知：
+
+> HTTP `200 OK` 成功狀態碼表明請求成功。
+
+如果 200 狀態碼代表 OK，那麼衆所周知的 404 代表什麼？
+
+> HTTP `404 Not Found` 用戶端錯誤回應碼，表明了伺服器找不到請求的資源。
+引發 404 頁面的連結，通常被稱作斷連或死連（broken or dead link）、並可以導到失效連結（link rot）頁面。
+（取自：<a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/404" target="_blank" rel="noopener noreferrer">MDN: 404 Not Found</a>）
+
+至於 404 錯誤碼，Go 的 `http` 包有沒有定義相關常數？
 
 ```go
 $ go doc http.StatusOK | grep 404
         StatusNotFound                     = 404 // RFC 9110, 15.5.5
 ```
 
-HTTP 協議指定了幾十種狀態碼，要看 Go 標準函數庫所定義的狀態碼常數可以看 `go doc http.StatusOK`。
-相關的標準文件為 <a href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" target="_blank" rel="noopener noreferrer">Hypertext Transfer Protocol (HTTP) Status Code Registry</a>。
-另外，想要進一步了解狀態碼的讀者可以看 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status" target="_blank" rel="noopener noreferrer">MDN: HTTP 狀態碼</a>。
+HTTP 協議指定了幾十種狀態碼，想要進一步了解狀態碼的讀者可以看 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status" target="_blank" rel="noopener noreferrer">MDN: HTTP 狀態碼</a>與相關標準 <a href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" target="_blank" rel="noopener noreferrer">Hypertext Transfer Protocol (HTTP) Status Code Registry</a>。
+
+
 
 除了設定預設狀態碼，`Write` 將會根據我們所寫入的內容前512個字元猜測所寫入的內容類型，並按照猜測結果設定回應的 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer">`Content-Type` 標頭</a>。
 這就是為什麼在第一章，當我們返回一段**看起來**像 HTML 的內容，瀏覽器就將它理解成 HTML 內容。
