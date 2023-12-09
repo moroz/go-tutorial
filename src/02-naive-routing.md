@@ -219,6 +219,8 @@ type ResponseWriter interface {
 }
 ```
 
+### 狀態碼
+
 `http.ResponseWriter` 的 `Write` 方法接受一個參數，其類型為 `[]byte`（二進制資料），並返回兩個值：`(int, error)`（一個整數與一個錯誤）。
 目前，它的返回值對我們來說不重要，然而文檔裡第二段文字包含了重要的解釋：
 
@@ -259,11 +261,47 @@ $ go doc http.StatusOK | grep 404
 
 HTTP 協議指定了幾十種狀態碼，想要進一步了解狀態碼的讀者可以看 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status" target="_blank" rel="noopener noreferrer">MDN: HTTP 狀態碼</a>與相關標準 <a href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" target="_blank" rel="noopener noreferrer">Hypertext Transfer Protocol (HTTP) Status Code Registry</a>。
 
+### `Content-Type` 標頭
 
+`http.ResponseWriter.Write` 除了設定預設狀態碼 200 OK 以外，還會猜測並設定一個 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer">`Content-Type` 標頭</a>：
 
-除了設定預設狀態碼，`Write` 將會根據我們所寫入的內容前512個字元猜測所寫入的內容類型，並按照猜測結果設定回應的 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Headers/Content-Type" target="_blank" rel="noopener noreferrer">`Content-Type` 標頭</a>。
+> If the `Header` does not contain a `Content-Type` line, `Write` adds a `Content-Type` set to the result of passing the initial 512 bytes of written data to `DetectContentType`.
+
+至於 `http.DetectContentType` 的功能：
+
+```go
+$ go doc http.DetectContentType
+package http // import "net/http"
+
+func DetectContentType(data []byte) string
+    DetectContentType implements the algorithm described at
+    https://mimesniff.spec.whatwg.org/ to determine the Content-Type of
+    the given data. It considers at most the first 512 bytes of data.
+    DetectContentType always returns a valid MIME type: if it cannot determine a
+    more specific one, it returns "application/octet-stream".
+
+```
+
+這個函數將檢查資料的前 512 字元，然後保證總是會返回一個正確的 <a href="https://developer.mozilla.org/zh-TW/docs/Glossary/MIME_type" target="_blank" rel="noopener noreferrer">MIME 類型</a>。
+讓我們試試看它的猜測多準確。以下程式碼包含幾個字串，分別為 HTML、CSS、JavaScript 與 JSON 的範例（這四種語言與格式都是網頁開發者的家常便飯），測試看看 `http.DetectContentType` 能夠正確猜測出哪些格式：
+
+```go
+{{#include ../code/02-naive-routing/iterations/04/main.go}}
+```
+
+執行以上程式的結果：
+
+```shell
+$ go run .
+HTML: text/html; charset=utf-8
+CSS: text/plain; charset=utf-8
+JS: text/plain; charset=utf-8
+JSON: text/plain; charset=utf-8
+```
+
+這恐怕沒有很實用：只有 HTML 猜中了（`text/html`），其他都直接當成純文字（`text/plain`）。
+另外，Go 還加上了 `; charset=utf-8` 一段，表明我們將傳送 <a href="https://zh.wikipedia.org/wiki/UTF-8" target="_blank" rel="noopener noreferrer">UTF-8</a> 編碼（<a href="https://zh.wikipedia.org/wiki/Unicode" target="_blank" rel="noopener noreferrer">Unicode</a>）的文字資料，讓我們可以正確傳送拉丁字母以外的符號，例如漢字、注音符號抑是表情圖案，避開亂碼的問題。
+
+雖然 HTML 以外的格式都被 `http.DetectContentType` 誤解成純文字，但重點是 HTML 那一段被 Go 猜對了！
 這就是為什麼在第一章，當我們返回一段**看起來**像 HTML 的內容，瀏覽器就將它理解成 HTML 內容。
 其實，瀏覽器本身沒有在猜測任何事，猜測的部分完全由 Go 進行。
-
-## 404 錯誤的處理方法
-
