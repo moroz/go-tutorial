@@ -340,4 +340,8 @@ $ go run .
 <caption>瀏覽到 <code>http://localhost:3000/test</code> 的畫面。</caption>
 </figure>
 
-以上截圖中
+以上截圖上看得到開發者工具的「網路」分頁，可以看見我們所開發的伺服器應對第一個請求（`GET /test`）回應了正確的狀態碼 `404 Not Found` 與正確的 `Content-Type` 標頭 `text/html; charset=utf-8`。
+
+在 Chromium 基礎的瀏覽器裡（Google Chrome、MS Edge、Opera）與 Mozilla Firefox 兩種瀏覽器內，這個畫面都可以用 F12 打開，或是在網頁的任何地方按右鍵並選取「檢查」（Inspect）。
+開發者工具預設開啓的分頁可能因瀏覽器類型而異，要檢查網路請求的記錄，請點擊「網路」（Network）分頁並刷新網頁（快捷鍵為 F5 或 Ctrl-R，蘋果為 Cmd-R）。
+
