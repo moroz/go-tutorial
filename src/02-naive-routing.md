@@ -75,11 +75,21 @@ tutorial.moroz.dev -- host 主機名，這個網站的域名
 /02-naive-routing -- path 路徑，一律都是 / 開頭
 ```
 
-我們在 `HandleRequest` 裡面將會需要請求路徑（request path），一般而言在文檔中搜尋英文的關鍵字是還不錯的查詢資料的策略。
+從使用者的角度來看，路徑就是每一個分頁的網址。
+當你瀏覽到不同分頁的時候，瀏覽器將會幫你向伺服器請求每一個分頁的內容。
+每一個分頁都用一個獨立的 HTTP 請求，請求資料包含路徑等資料。
+伺服器將按照這路徑決定要回應什麼樣的資料給瀏覽器。
+
+所以，開發不同分頁的時候，我們需要知道所請求的路徑，才可以知道要返回什麼資料。
+這個專案裡面，負責路由（英：routing）的邏輯都寫在 `HandleRequest` 函數裡。
+所以，寫這個函數的第一個步驟就是判斷請求路徑，然後用 `if` 或 `switch` 這種條件判斷表達式產生對應的內容。
+
 `HandleRequest` 接受兩個參數，類型分別為 `http.ResponseWriter` 與 `*http.Request`（`http.Request` 的指標）。
-`ResponseWriter` 的名稱為 response（回應）writer（寫入器），看起來與我們要找的資料無關。
-反而，`Request` 就是我們需要的「請求」，我們可以看看有沒有提供路徑資訊。
-各位同學可以自己執行以下指令來看看 `http.Request` 的屬性：
+我們需要的是請求（request）的資料。
+`ResponseWriter` 這個類型的名稱為 response（回應）writer（寫入器），所以從名字上可以推理出，它與請求無關。
+反而，`Request` 的名稱就是我們目前所需的「請求」，可以查詢看看它是否包含請求路徑。
+這時候建議看相關文檔，在此為 `http.Request`。
+以下指令將印出 `http.Request` 的所有屬性：
 
 ```shell
 $ go doc http.Request
@@ -269,7 +279,7 @@ HTTP 協議指定了幾十種狀態碼，想要進一步了解狀態碼的讀者
 
 至於 `http.DetectContentType` 的功能：
 
-```go
+```shell
 $ go doc http.DetectContentType
 package http // import "net/http"
 
@@ -316,9 +326,18 @@ JSON: text/plain; charset=utf-8
 {{#include ../code/02-naive-routing/iterations/05/main.go:30:37}}
 ```
 
+執行這個程式：
+
+```
+$ go run .
+2023/12/09 19:26:57 Listening on :3000...
+```
+
+現在，首頁與聯絡資訊頁面都可以正常使用，而瀏覽至不存在的頁面時就會看到 404 分頁：
+
 <figure class="bordered-figure">
 <a href="/images/02/404-correct.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/404-correct.png" /></a>
-<caption></caption>
+<caption>瀏覽到 <code>http://localhost:3000/test</code> 的畫面。</caption>
 </figure>
 
-
+以上截圖中
