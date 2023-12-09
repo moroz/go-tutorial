@@ -1,4 +1,4 @@
-# 第二章&#x3000;請求與回應
+# 第二章&#x3000;不同分頁
 
 目前，我們網頁進度還不錯：已經可以在瀏覽器裡面顯示內容了。
 然而，這個網頁的功能還是有限：無論瀏覽到哪一個頁面，都只會顯示一樣的內容！
@@ -250,7 +250,7 @@ MDN: 200 OK</a> 的文檔裡可以得知：
 
 > HTTP `404 Not Found` 用戶端錯誤回應碼，表明了伺服器找不到請求的資源。
 引發 404 頁面的連結，通常被稱作斷連或死連（broken or dead link）、並可以導到失效連結（link rot）頁面。
-（取自：<a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/404" target="_blank" rel="noopener noreferrer">MDN: 404 Not Found</a>）
+（摘錄自：<a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status/404" target="_blank" rel="noopener noreferrer">MDN: 404 Not Found</a>）
 
 至於 404 錯誤碼，Go 的 `http` 包有沒有定義相關常數？
 
@@ -304,4 +304,21 @@ JSON: text/plain; charset=utf-8
 
 雖然 HTML 以外的格式都被 `http.DetectContentType` 誤解成純文字，但重點是 HTML 那一段被 Go 猜對了！
 這就是為什麼在第一章，當我們返回一段**看起來**像 HTML 的內容，瀏覽器就將它理解成 HTML 內容。
-其實，瀏覽器本身沒有在猜測任何事，猜測的部分完全由 Go 進行。
+其實，瀏覽器本身沒有在猜測任何事，而是 Go 的 `http.ResponseWriter.Write` 幫我們檢測並設定正確的 `Content-Type` 標頭。
+
+## 404 路徑
+
+我們現在知道了，要讓瀏覽器正確顯示 HTML 內容，就是要在回應裡設定正確的 `Content-Type` 標頭：`text/html; charset=utf-8`。
+另外，我們知道了 404 這個數字是一種「回應狀態碼」，而用 Go 語言設定狀態碼的方法就是呼叫 `http.ResponseWriter.WriteHeader`。
+這樣就可以試著寫 `switch` 條件判斷的 `default:` 一段：
+
+```go
+{{#include ../code/02-naive-routing/iterations/05/main.go:30:37}}
+```
+
+<figure class="bordered-figure">
+<a href="/images/02/404-correct.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/404-correct.png" /></a>
+<caption></caption>
+</figure>
+
+
