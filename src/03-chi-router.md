@@ -10,4 +10,13 @@ Chi 是一種路由器，使用該軟體包就可以將路由器的程式拆成�
 
 ## 初始化小專案
 
+使用以下終端機指令建立資料夾並初始化新專案。`mkdir -p` 的功能詳見第一章與第二章。
+`go mod init` 將在當前資料夾初始化新的 Go 專案，由於我們在這堂課要使用第三方的軟體包，這個專案一定要執行 `go mod init` 才能正確安裝並編譯第三方軟體包。
 
+```shell
+mkdir -p ~/projects/go-tutorial/03-chi-router
+cd ~/projects/go-tutorial/03-chi-router
+go mod init go-tutorial/03-chi-router
+```
+
+以上指令的功能
