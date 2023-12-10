@@ -243,7 +243,7 @@ type ResponseWriter interface {
 go doc http.StatusOK
 ```
 
-由於 `http` 源代碼中，所有狀態碼常數都是一起定義的，因此執行以上指令也會同時印出 `http` 定義的所有狀態狀態碼常數，內容有點太多，但可以用 `grep` 來搜尋：
+由於 `http` 源代碼中，所有狀態碼常數都是一起定義的，因此執行以上指令也會同時印出 `http` 定義的所有狀態碼常數，內容有點太多，但可以用 `grep` 來搜尋：
 
 ```go
 $ go doc http.StatusOK | grep StatusOK

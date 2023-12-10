@@ -19,4 +19,31 @@ cd ~/projects/go-tutorial/03-chi-router
 go mod init go-tutorial/03-chi-router
 ```
 
-以上指令的功能
+在 Go 專案裡安裝第三方軟體包的指令為 `go get`。
+<!-- `go get` 的功能與 Git 版本控制系統息息相關，安裝軟體包最簡單的方式就是 -->
+<a href="https://github.com/go-chi/chi" target="_blank" rel="noopener noreferrer">Chi 的官方網站</a>介紹了安裝該軟體包的指令：
+
+```shell
+go get -u github.com/go-chi/chi/v5
+```
+
+在稍早建立的專案資料夾中執行以上指令：
+
+```shell
+$ go get -u github.com/go-chi/chi/v5
+
+go: downloading github.com/go-chi/chi v1.5.5
+go: added github.com/go-chi/chi/v5 v5.0.10
+```
+
+這時候可能會發現 `go.mod` 檔案裡多了一行資料：
+
+```plain
+module go-tutorial/03-chi-router
+
+go 1.21.1
+
+require github.com/go-chi/chi/v5 v5.0.10 // indirect
+```
+
+每次在一個專案裡新增相依關係時，Go 將相依關係的資料寫入 `go.mod` 裡，之後
