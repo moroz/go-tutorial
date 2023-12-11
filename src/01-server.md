@@ -8,65 +8,127 @@ HTTP 是一種協議，也就是說，一種規定兩臺電腦之間的溝通方
 對應每一個請求，伺服器將分別傳送一個「回應」。
 提供資料的機器叫作伺服器（英：server），而請求資料的那一臺電腦則稱為客戶端（英：client）。
 
-## 初始化專案
+## 為 Git 設定開發者資料
 
-首先，我們來建立一個新專案。使用 `mkdir -p` 建立一個資料夾：
-
-```shell
-mkdir -p ~/projects/go-tutorial/01-server
-```
-
-`mkdir` 為 _make directory_ 的縮寫，而 `-p` 代表我們希望建立中間的資料夾。
-然後進入稍早建立的資料夾並初始化新的專案 `go-tutorial/01-server`：
+請保證你的 Git 設定好了信箱與用戶名。以下是在我的電腦上執行 `git config --global --list` 的結果：
 
 ```shell
-cd ~/projects/go-tutorial/01-server
-go mod init go-tutorial/01-server
+$ git config --global --list
+core.excludesfile=/home/karol/.gitignore
+user.email=karol@moroz.dev
+user.name=Karol Moroz
+init.defaultbranch=main
+pull.rebase=false
 ```
 
-## 建立 Git 版本庫
-
-開發任何軟體時，即使只是學習專案，使用一個版本控制系統是一個很好的慣例。
-讓我們在學習專案的資料夾裡面建立一個 Git 版本庫：
-
-```shell
-cd ~/projects/go-tutorial
-git init
-```
-
-Git 版本庫的變更單位稱作 commit，一個 commit 可以結合對於多個檔案的更動。
-將 `~/projects/go-tutorial` 及所有子資料夾加到下一個 commit，借此告訴 Git，我們打算將所有更動加到下一個版本。
-此動作的英文叫作 _stage for commit_，而對應的終端機指令為 `git add`。
-
-此指令這後面不要忽略 `.`（一個半形句點），表示「當前資料夾」。加了當前資料夾也會一起加這個資料夾的所有子資料夾，包含稍早初始化的 `01-server`：
-
-```shell
-git add .
-```
-
-最後，儲存 commit：
-
-```shell
-git commit -m "Initial commit"
-```
-
-這是這個版本庫的第一個 commit，所以 _initial commit_ 就是「第一個版本」的意思。
-每一個 commit 都必須包含一個 _commit message_，通常為這個版本80字符以內的英文描述。
-
-若初次使用 Git，你的本地環境尚未設定 Git 信箱與姓名，這種情況下 Git 不會讓你完成 commit。請先設定 Git 的預設信箱與姓名：
+如果所列印的結果中看到了 `user.email` 與 `user.name` 兩個設定值，代表設定正確。
+如果這兩個設定沒出現，請用以下指令設定：
 
 ```shell
 git config --global user.name "Xiaoming Wang" # 填寫自己的資料
 git config --global user.email "xiaoming.wang@example.com"
 ```
 
-<!-- TODO: Get an example of an error message in a fresh environment -->
+以上資料將會儲存在每一個「提交」（英：commit）裡面。
 
-設定完本地 Git 版本庫，建議同步至 Github 當作備份與學習進度的紀錄。
+## 建立課程資料夾
+
+整個課程中，我們的練習題都會寫在同一個資料夾。
+這個資料夾具體的路徑各位讀者當然可以自己選擇，但在課程的內文中，我都會假設它在 `~/projects/go-tutorial`（`~`是你的<a href="https://zh.wikipedia.org/zh-tw/%E5%AE%B6%E7%9B%AE%E5%BD%95" target="_blank" rel="noopener noreferrer">家目錄</a>）。
+
+以下指令將建立一個資料夾：
+
+```shell
+mkdir -p ~/projects/go-tutorial
+```
+
+`mkdir` 為 _make directory_ 的縮寫，而 `-p`（`--parents`的縮寫）代表我們希望建立中間每一層的資料夾，也就是說，如果 `~/projects` 不存在，這個指令也就會順便建立 `~/projects`。
+
+進入稍早建立的資料夾：
+
+```shell
+cd ~/projects/go-tutorial
+```
+
+接下來可以在此初始化一個 Git 版本庫：
+
+```shell
+git init
+```
+
+每一個 Git 版本庫都需要至少有一個「提交」，才可以上傳到 Github，而每一個提交都需要至少變更一個檔案。
+所以在這個資料夾新增一個簡單的 `README.md`檔案，這是一個 Git 專案的介紹文件：
+
+```markdown
+# 網頁開發學習日記
+
+大家好，我正在跟肉肉教授學習網頁開發！
+請上 https://tutorial.moroz.dev 加入我！
+```
+
+如果在這個資料夾執行 `git status` 應該會看到類型以下的結果：
+
+```shell
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+將稍早建立的 `README.md` 加入第一個提交：
+
+```shell
+go add README.md
+```
+
+完成建立第一個提交：
+
+```shell
+$ git commit -m "Initial commit"
+[main (root-commit) a72ac94] Initial commit
+ 1 file changed, 5 insertions(+)
+ create mode 100644 README.md
+```
+
+現在可以至 Github 建立一個遠端版本庫並按照網頁上的指示上傳本地資料。
+
+## 建立小專案
+
+有了一個 Git 版本庫後，就可以建立第一個小程式專案。
+
+請保證你在 `~/projects/go-tutorial` 資料夾中：
+
+```shell
+cd ~/projects/go-tutorial
+```
+
+然後建立名叫 `01-server` 的資料夾：
+
+```shell
+mkdir 01-server
+```
+
+進入稍早建立的資料夾：
+
+```shell
+cd 01-server
+```
+
+初始化新的 Go 專案：
+
+```shell
+go mod init github.com/<你的Github用戶名>/go-tutorial/01-server
+```
 
 ## 第一個伺服器
 
-在這個資料夾裡面，建立一個新檔案 `main.go`：
+在這個資料夾裡面，建立一個新檔案 `main.go` 並填寫以下內容：
 
 ```go
 {{#include ../code/01-server/main.go}}
@@ -106,15 +168,17 @@ package http // import "net/http"
 func ListenAndServe(addr string, handler Handler) error
 ```
 
-這個函數的第一個參數為要希望監聽的端口，而第二個函數為一個 `http.Handler`。這個函數將返回一個錯誤。由於將這個函數的返回值傳達給 `log.Fatal`，如果監聽的動作發生問題，`log.Fatal` 就會印出錯誤並結束這段程式。
+這個函數的第一個參數為希望監聽的端口，而第二個參數為一個 `http.Handler`。
+如果 `ListenAndServe` 發生錯誤，它將返回一個錯誤值（`error`），然後由 `log.Fatal` 印出來，小程式就結束。
 如果沒有出錯，那麼 `http.ListenAndServe` 將持續監聽我們所指定的端口並使用 `handler` 處理 HTTP 請求。
 
-### `http.Handler` 的用法
+### `http.Handler` 與 `http.HandlerFunc` 的用法
 
-至於 `http.ListenAndServe` 的第二個參數，`handler`，它的類型為 `http.Handler`。
-`http.Handler` 是一個介面類型（英：interface），它的方法簽名要求一個方法：
+`http.ListenAndServe` 的第二個參數叫 `handler`，它的類型為 `http.Handler` 介面（英：interface）。
+`http.Handler` 要求一個方法：
 
-```go
+```shell
+$ go doc http.Handler
 package http // import "net/http"
 
 type Handler interface {
@@ -122,11 +186,10 @@ type Handler interface {
 }
 ```
 
-### `http.HandlerFunc` 的用法
-
 `http` 這個 `package` 內另外提供了一種類型，名為 `http.HandlerFunc`：
 
-```go
+```shell
+$ go doc http.HandlerFunc
 package http // import "net/http"
 
 type HandlerFunc func(ResponseWriter, *Request)
