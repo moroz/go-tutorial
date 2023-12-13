@@ -46,4 +46,12 @@ go 1.21.1
 require github.com/go-chi/chi/v5 v5.0.10 // indirect
 ```
 
-每次在一個專案裡新增相依關係時，Go 將相依關係的資料寫入 `go.mod` 裡，之後
+每次在一個專案裡新增相依關係時，Go 將相依關係的資料寫入 `go.mod` 裡，保證之後在任何其他電腦上都可以正確安裝。
+
+這段程式碼是一非常簡單的使用 `chi` 的伺服器：
+
+```go
+{{#include ../code/03-chi-router/iterations/01/main.go}}
+```
+
+
