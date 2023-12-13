@@ -54,4 +54,12 @@ require github.com/go-chi/chi/v5 v5.0.10 // indirect
 {{#include ../code/03-chi-router/iterations/01/main.go}}
 ```
 
+```go
+{{#include ../code/03-chi-router/iterations/02/main.go}}
+```
+
+```go
+{{#include ../code/03-chi-router/iterations/03/main.go}}
+```
+
 
