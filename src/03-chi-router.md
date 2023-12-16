@@ -111,7 +111,64 @@ $ go run .
 {{#include ../code/03-chi-router/iterations/02/main.go:13:14}}
 ```
 
+`middleware.Logger` 這一段的目的是為了加上記錄請求的功能。
+它會讓我們的程式在終端機裡印出每一個請求的來源、路徑與回應狀態碼，如下：
 
+```shell
+$ go run .
+2023/12/16 22:04:25 Listening on :3000...
+2023/12/16 22:04:39 "GET http://localhost:3000/ HTTP/1.1" from 127.0.0.1:53156 - 200 79B in 44.334µs
+```
+
+以下兩行將新增 `/` 與 `/contact` 兩個路徑：
+
+```go
+{{#include ../code/03-chi-router/iterations/02/main.go:16:17}}
+```
+
+為什麼這兩個路徑都用 `Get` 方法定義呢？
+以下為 `Mux.Get` 的文檔：
+
+```shell
+$ go doc github.com/go-chi/chi/v5 Mux.Get
+package chi // import "github.com/go-chi/chi/v5"
+
+func (mx *Mux) Get(pattern string, handlerFn http.HandlerFunc)
+    Get adds the route `pattern` that matches a GET http method to execute the
+    `handlerFn` http.HandlerFunc.
+```
+
+這個方法為什麼叫 `Get` 呢？
+每一個 HTTP 請求除了路徑以外，都還有一個 method，最基本的兩個叫 `GET` 與 `POST`。
+一般而言，當你使用瀏覽器拜訪一個頁面，或是點一個連接，瀏覽器都會替你傳送一個 `GET` 請求。
+`POST` 請求主要用於送出表單，如寄信、登入等功能。
+由於這兩個路徑都是用 `Get` 方法定義的，所以這兩個路徑都限使用 `GET` 這個 method，如果使用 `POST`，路由器將會返回 404 回應。
+
+`Get` 的兩個參數分別為 `pattern` 與 `handlerFn`。
+`pattern` 就是要處理的路徑，而 `handlerFn` 為處理請求的 `http.HandlerFunc`。
+與 `http.ListenAndServe` 不同，這邊可以直接用函數，不需要專用 `http.Handler` 介面。
+以下就是處理路徑的兩個函數：
+
+```go
+{{#include ../code/03-chi-router/iterations/02/main.go:23:35}}
+```
+
+這兩個函數都是我們已經熟悉的 `http.HandlerFunc`，因此兩個都接受同樣的參數，`(w http.ResponseWriter, r *http.Request)`。
+但與上一堂課不同，我們用了一個協助寫資料的函數，`fmt.Fprint`。
+以下為 `fmt.Fprint` 的文檔：
+
+```shell
+$ go doc fmt.Fprint
+package fmt // import "fmt"
+
+func Fprint(w io.Writer, a ...any) (n int, err error)
+    Fprint formats using the default formats for its operands and writes to w.
+    Spaces are added between operands when neither is a string. It returns the
+    number of bytes written and any write error encountered.
+```
+
+`Fprint`，還有兩個功能很接近的函數，`Fprintf` 與 `Fprintln`
+使用這個函數的主要優點就是，可以使用用任何類型的資料。
 
 ```go
 {{#include ../code/03-chi-router/iterations/03/main.go}}
