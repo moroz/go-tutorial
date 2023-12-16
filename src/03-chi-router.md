@@ -48,15 +48,70 @@ require github.com/go-chi/chi/v5 v5.0.10 // indirect
 
 每次在一個專案裡新增相依關係時，Go 將相依關係的資料寫入 `go.mod` 裡，保證之後在任何其他電腦上都可以正確安裝。
 
-這段程式碼是一非常簡單的使用 `chi` 的伺服器：
+## `chi` 的用法
+
+<a href="TODO" target="_blank" rel="noopener noreferrer">Chi 的網站</a>提供了還不錯的使用範例。
+簡單地來講，`chi.NewRouter` 可以初始化一個路由器：
+
+```go
+r := chi.NewRouter()
+```
+
+以下指令可以查詢 `chi.NewRouter` 的文檔：
+
+```shell
+$ go doc github.com/go-chi/chi/v5 NewRouter
+package chi // import "github.com/go-chi/chi/v5"
+
+func NewRouter() *Mux
+    NewRouter returns a new Mux object that implements the Router interface.
+```
+
+`chi.NewRouter` 反回一個 `*chi.Mux`（`chi.Mux` 結構的指標）。`chi.Mux` 提供了 `ServeHTTP(w http.ResponseWriter, r *http.Request)` 的方法，代表它符合 `http.Handler` 介面，可以直接用在 `http.ListenAndServe` 當 `handler` 參數：
+
+```shell
+$ go doc github.com/go-chi/chi/v5 Mux.ServeHTTP
+package chi // import "github.com/go-chi/chi/v5"
+
+func (mx *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request)
+    ServeHTTP is the single method of the http.Handler interface that makes
+    Mux interoperable with the standard library. It uses a sync.Pool to get and
+    reuse routing contexts for each request.
+```
+
+以下程式將利用簡單的 `chi.Mux` 處理請求：
 
 ```go
 {{#include ../code/03-chi-router/iterations/01/main.go}}
 ```
 
+執行以上程式碼就會看到熟悉的畫面：
+
+```shell
+$ go run .
+2023/12/16 17:06:22 Listening on :3000...
+```
+
+由於還沒有新增任何路徑，瀏覽到任何網址徑都是 404：
+
+<figure class="bordered-figure">
+<a href="/images/03/chi-no-routes.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-no-routes.png" /></a>
+<caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的任何路徑，都只看得到 404 錯誤頁面。</caption>
+</figure>
+
+以下程式碼可以新增首頁與聯絡資訊兩個路徑：
+
 ```go
 {{#include ../code/03-chi-router/iterations/02/main.go}}
 ```
+
+以下程式碼建立新的 `chi.Mux` 並啟動請求記錄：
+
+```go
+{{#include ../code/03-chi-router/iterations/02/main.go:13:14}}
+```
+
+
 
 ```go
 {{#include ../code/03-chi-router/iterations/03/main.go}}
