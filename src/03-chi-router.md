@@ -167,8 +167,14 @@ func Fprint(w io.Writer, a ...any) (n int, err error)
     number of bytes written and any write error encountered.
 ```
 
-`Fprint`，還有兩個功能很接近的函數，`Fprintf` 與 `Fprintln`
-使用這個函數的主要優點就是，可以使用用任何類型的資料。
+`fmt.Fprint` 函數可以寫入任何一個符合 `io.Writer` 介面的物件。
+`io.Writer` 的概念很簡單：不論輸出裝置是什麼，寫入資料的動作都一樣。
+在 Go 語言裡面，可以寫入資料的物件都實作同樣的 `Write([]byte)` 的方法，這也是 `io.Writer` 介面要求唯一的方法。
+因此，任何實作 `Write([]byte)` 方法的物件都可以當作 `io.Writer` 物件。
+
+`homeHandler` 與 `contactHandler` 的第一個參數為一個 `http.ResponseWriter`。
+我們知道 `http.ResponseWriter` 實作 `Write([]byte)` 的方法，這代表 `http.ResponseWriter` 也可以當作 `io.Writer`。
+使用 `fmt.Fprint` 的好處是不再需要將回應內容轉換為 `string`。
 
 ```go
 {{#include ../code/03-chi-router/iterations/03/main.go}}
