@@ -188,6 +188,17 @@ func Fprint(w io.Writer, a ...any) (n int, err error)
 <caption>瀏覽至不存在的路徑，就會看到預設的 404 錯誤頁面。</caption>
 </figure>
 
+為處理未知路徑的請求，`chi.Mux` 提供了一個方法，名叫 `NotFound`：
+
+```shell
+$ go doc github.com/go-chi/chi/v5 Mux.NotFound
+package chi // import "github.com/go-chi/chi/v5"
+
+func (mx *Mux) NotFound(handlerFn http.HandlerFunc)
+    NotFound sets a custom http.HandlerFunc for routing paths that could not be
+    found. The default 404 handler is `http.NotFound`.
+```
+
 ```go
 {{#include ../code/03-chi-router/iterations/03/main.go}}
 ```
