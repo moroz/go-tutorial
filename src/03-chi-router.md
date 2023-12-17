@@ -144,6 +144,8 @@ func (mx *Mux) Get(pattern string, handlerFn http.HandlerFunc)
 `POST` 請求主要用於送出表單，如寄信、登入等功能。
 由於這兩個路徑都是用 `Get` 方法定義的，所以這兩個路徑都限使用 `GET` 這個 method，如果使用 `POST`，路由器將會返回 404 回應。
 
+## Handler 函數
+
 `Get` 的兩個參數分別為 `pattern` 與 `handlerFn`。
 `pattern` 就是要處理的路徑，而 `handlerFn` 為處理請求的 `http.HandlerFunc`。
 與 `http.ListenAndServe` 不同，這邊可以直接用函數，不需要專用 `http.Handler` 介面。
@@ -175,6 +177,16 @@ func Fprint(w io.Writer, a ...any) (n int, err error)
 `homeHandler` 與 `contactHandler` 的第一個參數為一個 `http.ResponseWriter`。
 我們知道 `http.ResponseWriter` 實作 `Write([]byte)` 的方法，這代表 `http.ResponseWriter` 也可以當作 `io.Writer`。
 使用 `fmt.Fprint` 的好處是不再需要將回應內容轉換為 `string`。
+
+## 預設路徑
+
+目前我們的程式功能已經很接近第二章所開發的小專案，唯一的差別是還沒有設計客製化的 404 錯誤頁面。
+如果瀏覽到不存在的路徑，就會看到預設 404 錯誤頁面，如圖：
+
+<figure class="bordered-figure">
+<a href="/images/03/chi-404.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-404.png" /></a>
+<caption>瀏覽至不存在的路徑，就會看到預設的 404 錯誤頁面。</caption>
+</figure>
 
 ```go
 {{#include ../code/03-chi-router/iterations/03/main.go}}
