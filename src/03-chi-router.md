@@ -19,9 +19,7 @@ cd ~/projects/go-tutorial/03-chi-router
 go mod init go-tutorial/03-chi-router
 ```
 
-在 Go 專案裡安裝第三方軟體包的指令為 `go get`。
-<!-- `go get` 的功能與 Git 版本控制系統息息相關，安裝軟體包最簡單的方式就是 -->
-<a href="https://github.com/go-chi/chi" target="_blank" rel="noopener noreferrer">Chi 的官方網站</a>介紹了安裝該軟體包的指令：
+在 Go 專案裡安裝第三方軟體包的指令為 `go get`。<a href="https://github.com/go-chi/chi" target="_blank" rel="noopener noreferrer">Chi 的官方網站</a>介紹了安裝該軟體包的指令：
 
 ```shell
 go get -u github.com/go-chi/chi/v5
@@ -199,8 +197,32 @@ func (mx *Mux) NotFound(handlerFn http.HandlerFunc)
     found. The default 404 handler is `http.NotFound`.
 ```
 
+在 `main()` 裡新增 `r.NotFound(notFoundHandler)` 一行：
+
 ```go
-{{#include ../code/03-chi-router/iterations/03/main.go}}
+{{#include ../code/03-chi-router/iterations/03/main.go:12:21}}
 ```
 
+然後新增 `notFoundHandler` 函數的定義：
 
+```go
+{{#include ../code/03-chi-router/iterations/03/main.go:37:}}
+```
+
+執行這段程式：
+
+```shell
+$ go run .
+```
+
+<figure class="bordered-figure">
+<a href="/images/03/chi-custom-404.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-custom-404.png" /></a>
+<caption>瀏覽至不存在的路徑，就會看到與第二章小專案一樣的客製化 404 錯誤頁面。</caption>
+</figure>
+
+這堂課的小專案就到這，我們來將更改儲存至 Git 版本庫：
+
+```shell
+git add .
+git commit -m "03: Routing with chi-router"
+```
