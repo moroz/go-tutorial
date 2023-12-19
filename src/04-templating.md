@@ -88,3 +88,43 @@ $ go run .
 ```
 
 由於我們傳輸給樣版的資料裡有一個叫 `Name` 的屬性，它的值為字串「世界」，而樣版裡面用 `{{ .Name }}` 的寫法引用這個屬性，因此 `<h1>` 的內容變成「你好，世界」。
+
+### 使用 `template.Must` 縮寫錯誤處理
+
+在上方程式中，我們用這一段程式讀取樣版檔案，如果讀取過程中發生錯誤，將印出錯誤並提早終止程式：
+
+```go
+{{#include ../code/04-templating/iterations/01/main.go:13:16}}
+```
+
+一般而言，大部分的程式一定要所有樣版都讀取成功，才能夠正常使用，所以以上用法很常見。
+`html/template` 提供了一個實用的小函數 `template.Must`：
+
+```shell
+$ go doc template.Must
+package template // import "html/template"
+
+func Must(t *Template, err error) *Template
+    Must is a helper that wraps a call to a function returning (*Template,
+    error) and panics if the error is non-nil. It is intended for use in
+    variable initializations such as
+
+        var t = template.Must(template.New("name").Parse("html"))
+```
+
+所以，我們程式可以寫成：
+
+```go
+{{#include ../code/04-templating/iterations/02/main.go:12:17}}
+```
+
+執行起來，結果還是一模一樣：
+
+```shell
+$ go run .
+<title>王小明的網站</title>
+
+<body>
+  <h1>你好，世界</h1>
+</body>
+```
