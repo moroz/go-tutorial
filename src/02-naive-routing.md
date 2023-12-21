@@ -129,7 +129,7 @@ $ go doc http.Request | grep -C10 -i path
 上方搜尋結果可見，`http.Request` 本身沒有叫 `Path` 的屬性，但是有叫 `URL` 的屬性，其類型為 `*url.URL`（`url.URL` 的指標）。
 以下指令可以看 `url.URL` 的 `Path` 屬性的定義：
 
-```go
+```shell
 $ go doc url.URL.Path             
 package url // import "net/url"
 
@@ -198,7 +198,7 @@ $ go run .
 
 以下指令可檢查 `http.ResponseWriter` 的 `Write` 方法的文檔：
 
-```go
+```shell
 $ go doc http.ResponseWriter.Write
 package http // import "net/http"
 
@@ -245,7 +245,7 @@ go doc http.StatusOK
 
 由於 `http` 源代碼中，所有狀態碼常數都是一起定義的，因此執行以上指令也會同時印出 `http` 定義的所有狀態碼常數，內容有點太多，但可以用 `grep` 來搜尋：
 
-```go
+```shell
 $ go doc http.StatusOK | grep StatusOK
         StatusOK                   = 200 // RFC 9110, 15.3.1
 ```
@@ -264,7 +264,7 @@ MDN: 200 OK</a> 的文檔裡可以得知：
 
 至於 404 錯誤碼，Go 的 `http` 包有沒有定義相關常數？
 
-```go
+```shell
 $ go doc http.StatusOK | grep 404
         StatusNotFound                     = 404 // RFC 9110, 15.5.5
 ```
