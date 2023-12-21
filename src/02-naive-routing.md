@@ -162,19 +162,19 @@ $ go run .
 ```
 
 <figure class="bordered-figure">
-<a href="/images/02/main.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/main.png" /></a>
+<a href="/images/02/main.webp" target="_blank" rel="noopener noreferrer"><img src="/images/02/main.webp" /></a>
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
 </figure>
 
 <figure class="bordered-figure">
-<a href="/images/02/contact.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/contact.png" /></a>
+<a href="/images/02/contact.webp" target="_blank" rel="noopener noreferrer"><img src="/images/02/contact.webp" /></a>
 <caption>點擊「聯絡」的連接後的畫面。</caption>
 </figure>
 
 然後，如果現在瀏覽到一個不存在的頁面的話，只看得到空白一片：
 
 <figure class="bordered-figure">
-<a href="/images/02/non-existent.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/non-existent.png" /></a>
+<a href="/images/02/non-existent.webp" target="_blank" rel="noopener noreferrer"><img src="/images/02/non-existent.webp" /></a>
 <caption>瀏覽至不存在的頁面後只看得到空白一片。</caption>
 </figure>
 
@@ -336,7 +336,7 @@ $ go run .
 現在，首頁與聯絡資訊頁面都可以正常使用，而瀏覽至不存在的頁面時就會看到 404 分頁：
 
 <figure class="bordered-figure">
-<a href="/images/02/404-correct.png" target="_blank" rel="noopener noreferrer"><img src="/images/02/404-correct.png" /></a>
+<a href="/images/02/404-correct.webp" target="_blank" rel="noopener noreferrer"><img src="/images/02/404-correct.webp" /></a>
 <caption>瀏覽到 <code>http://localhost:3000/test</code> 的畫面。</caption>
 </figure>
 

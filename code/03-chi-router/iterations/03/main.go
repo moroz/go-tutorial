@@ -22,15 +22,15 @@ func main() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, `
-		<h1>歡迎光臨王小明的網站！</h1>
-		<a href="/contact">聯絡</a>
+		<h1>Welcome to Wang Xiaoming's Website!</h1>
+		<a href="/contact">Contact</a>
 	`)
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, `
-		<h1>聯絡資訊</h1>
-		<a href="/">返回首頁</a>
+		<h1>Contact me</h1>
+		<a href="/">Back to homepage</a>
 	`)
 }
 
@@ -39,7 +39,7 @@ func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	fmt.Fprint(w, `
 		<h1>404 Not Found</h1>
-		<p>找不到此頁面</p>
-		<a href="/">返回首頁</a>
+		<p>The requested page could not be found.</p>
+		<a href="/">Back to homepage</a>
 	`)
 }

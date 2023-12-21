@@ -93,7 +93,7 @@ $ go run .
 由於還沒有新增任何路徑，瀏覽到任何網址徑都是 404：
 
 <figure class="bordered-figure">
-<a href="/images/03/chi-no-routes.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-no-routes.png" /></a>
+<a href="/images/03/chi-no-routes.webp" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-no-routes.webp" /></a>
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的任何路徑，都只看得到 404 錯誤頁面。</caption>
 </figure>
 
@@ -182,7 +182,7 @@ func Fprint(w io.Writer, a ...any) (n int, err error)
 如果瀏覽到不存在的路徑，就會看到預設 404 錯誤頁面，如圖：
 
 <figure class="bordered-figure">
-<a href="/images/03/chi-404.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-404.png" /></a>
+<a href="/images/03/chi-404.webp" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-404.webp" /></a>
 <caption>瀏覽至不存在的路徑，就會看到預設的 404 錯誤頁面。</caption>
 </figure>
 
@@ -216,7 +216,7 @@ $ go run .
 ```
 
 <figure class="bordered-figure">
-<a href="/images/03/chi-custom-404.png" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-custom-404.png" /></a>
+<a href="/images/03/chi-custom-404.webp" target="_blank" rel="noopener noreferrer"><img src="/images/03/chi-custom-404.webp" /></a>
 <caption>瀏覽至不存在的路徑，就會看到與第二章小專案一樣的客製化 404 錯誤頁面。</caption>
 </figure>
 

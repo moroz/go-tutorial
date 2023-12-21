@@ -15,15 +15,15 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	// 首頁
 	case "/":
 		w.Write([]byte(`
-			<h1>歡迎光臨王小明的網站！</h1>
-			<a href="/contact">聯絡</a>
+			<h1>Welcome to Wang Xiaoming's Website!</h1>
+			<a href="/contact">Contact</a>
 		`))
 
 	// 聯絡資訊網站
 	case "/contact":
 		w.Write([]byte(`
-			<h1>聯絡資訊</h1>
-			<a href="/">返回首頁</a>
+			<h1>Contact me</h1>
+			<a href="/">Back to homepage</a>
 		`))
 
 	// 忽略任何其他路徑

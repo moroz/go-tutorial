@@ -231,7 +231,7 @@ $ go run .
 打開瀏覽器，瀏覽至 `http://localhost:3000` 或 `http://127.0.0.1:3000` 應該就會看到以下畫面：
 
 <figure class="bordered-figure">
-<img src="/images/01/01.png" />
+<a href="/images/01/01.webp" target="_blank" rel="noopener noreferrer"><img src="/images/01/01.webp" /></a>
 <caption>執行以上程式，瀏覽至<code>http://localhost:3000</code>的畫面。</caption>
 </figure>
 

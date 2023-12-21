@@ -22,14 +22,14 @@ func main() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, `
-		<h1>歡迎光臨王小明的網站！</h1>
-		<a href="/contact">聯絡</a>
+		<h1>Welcome to Wang Xiaoming's Website!</h1>
+		<a href="/contact">Contact</a>
 	`)
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, `
-		<h1>聯絡資訊</h1>
-		<a href="/">返回首頁</a>
+		<h1>Contact me</h1>
+		<a href="/">Back to homepage</a>
 	`)
 }

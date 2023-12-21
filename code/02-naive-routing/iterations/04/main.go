@@ -7,8 +7,8 @@ import (
 
 // HTML 的範例：這就是我們的首頁
 const SAMPLE_HTML = `
-<h1>歡迎光臨王小明的網站！</h1>
-<a href="/contact">聯絡</a>
+<h1>Welcome to Wang Xiaoming's Website!</h1>
+<a href="/contact">Contact</a>
 `
 
 // 簡單的 CSS 樣式範例
