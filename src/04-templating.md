@@ -129,3 +129,17 @@ $ go run .
 </body>
 ```
 
+<figure class="bordered-figure">
+<a href="/images/04/main-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/main-template.webp" /></a>
+<caption>使用<code>html/template</code>產生的首頁。</caption>
+</figure>
+
+<figure class="bordered-figure">
+<a href="/images/04/contact-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/contact-template.webp" /></a>
+<caption>使用<code>html/template</code>產生的聯絡資訊頁面。</caption>
+</figure>
+
+<figure class="bordered-figure">
+<a href="/images/04/404-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/404-template.webp" /></a>
+<caption>使用<code>html/template</code>產生的 404 錯誤頁面。</caption>
+</figure>
