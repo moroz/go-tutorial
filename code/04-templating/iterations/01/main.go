@@ -15,6 +15,6 @@ func main() {
 		panic(err)
 	}
 	tmp.Execute(os.Stdout, indexTemplateData{
-		Name: "世界",
+		Name: "World",
 	})
 }

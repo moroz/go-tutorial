@@ -80,10 +80,10 @@ Go 在這邊用 _execute_（執行）的說法，而不是 _render_（渲染）�
 
 ```shell
 $ go run .
-<title>王小明的網站</title>
+<title>Wang Xiaoming's Website</title>
 
 <body>
-  <h1>你好，世界</h1>
+  <h1>Hello, World</h1>
 </body>
 ```
 
@@ -122,9 +122,10 @@ func Must(t *Template, err error) *Template
 
 ```shell
 $ go run .
-<title>王小明的網站</title>
+<title>Wang Xiaoming's Website</title>
 
 <body>
-  <h1>你好，世界</h1>
+  <h1>Hello, World</h1>
 </body>
 ```
+
