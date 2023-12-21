@@ -12,9 +12,12 @@ type indexTemplateData struct {
 	Name string
 }
 
-var indexTemplate = template.Must(template.ParseFiles("templates/index.html.tmpl"))
-var contactTemplate = template.Must(template.ParseFiles("templates/contact.html.tmpl"))
-var notFoundTemplate = template.Must(template.ParseFiles("templates/404.html.tmpl"))
+var indexTemplate = template.Must(
+	template.ParseFiles("templates/index.html.tmpl"))
+var contactTemplate = template.Must(
+	template.ParseFiles("templates/contact.html.tmpl"))
+var notFoundTemplate = template.Must(
+	template.ParseFiles("templates/404.html.tmpl"))
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	indexTemplate.Execute(w, indexTemplateData{

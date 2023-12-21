@@ -129,6 +129,27 @@ $ go run .
 </body>
 ```
 
+## 結合樣版與 HTTP 路由器
+
+```html
+<!-- templates/index.html.tmpl -->
+{{#include ../code/04-templating/iterations/03/templates/index.html.tmpl}}
+```
+
+```html
+<!-- templates/contact.html.tmpl -->
+{{#include ../code/04-templating/iterations/03/templates/contact.html.tmpl}}
+```
+
+```html
+<!-- templates/404.html.tmpl -->
+{{#include ../code/04-templating/iterations/03/templates/404.html.tmpl}}
+```
+
+```go
+{{#include ../code/04-templating/iterations/03/main.go}}
+```
+
 <figure class="bordered-figure">
 <a href="/images/04/main-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/main-template.webp" /></a>
 <caption>使用<code>html/template</code>產生的首頁。</caption>
