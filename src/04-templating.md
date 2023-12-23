@@ -131,6 +131,14 @@ $ go run .
 
 ## 結合樣版與 HTTP 路由器
 
+接下來，我們來開發一個簡單的網站，一樣有一個首頁與一個聯絡資訊頁面，還有客製化的 404 錯誤頁面。
+這個小程式可以繼續用上一節的小專案用開發，但如果各位讀者想要保留第一個版本的程式碼，建議先 commit 到這的進度：
+
+```shell
+git add -A
+git commit -m "Render template to STDOUT"
+```
+
 ```html
 <!-- templates/index.html.tmpl -->
 {{#include ../code/04-templating/iterations/03/templates/index.html.tmpl}}
@@ -164,3 +172,4 @@ $ go run .
 <a href="/images/04/404-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/404-template.webp" /></a>
 <caption>使用<code>html/template</code>產生的 404 錯誤頁面。</caption>
 </figure>
+
