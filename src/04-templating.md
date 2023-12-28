@@ -139,15 +139,21 @@ git add -A
 git commit -m "Render template to STDOUT"
 ```
 
+然後我們來修改現有的樣版。在 `templates/index.html.tmpl`，我們來新增聯絡資訊頁面的連接：
+
 ```html
 <!-- templates/index.html.tmpl -->
 {{#include ../code/04-templating/iterations/03/templates/index.html.tmpl}}
 ```
 
+另外，在 `templates/contact.html.tmpl` 新增聯絡資訊頁面的樣版：
+
 ```html
 <!-- templates/contact.html.tmpl -->
 {{#include ../code/04-templating/iterations/03/templates/contact.html.tmpl}}
 ```
+
+最後，在 `templates/404.html.tmpl` 新增 404 錯誤頁面的樣版：
 
 ```html
 <!-- templates/404.html.tmpl -->
