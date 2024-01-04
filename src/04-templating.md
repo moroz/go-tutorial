@@ -160,9 +160,30 @@ git commit -m "Render template to STDOUT"
 {{#include ../code/04-templating/iterations/03/templates/404.html.tmpl}}
 ```
 
+以上三個樣版皆為簡單 HTML，不太需要解釋。
+如果你還沒有很懂 HTML，可以看看<a href="https://developer.mozilla.org/zh-TW/docs/Learn/HTML" target="_blank" rel="noopener noreferrer">學習 HTML ：指南與教學</a>，MDN 的資源都非常好。
+
+Go 程式的部分挺簡單的，雖然內容變多，但大多為已經介紹過的功能：
+
 ```go
 {{#include ../code/04-templating/iterations/03/main.go}}
 ```
+
+這一段讀取並編譯樣版檔案：
+
+```go
+{{#include ../code/04-templating/iterations/03/main.go:16:21}}
+```
+
+由於這三個變數定義都沒有寫在函數內，它將在 `main` 之前執行，如果在這個過程中發生任何錯誤，程式將無法啓動。
+
+以下三個函數為 `http.HandlerFunc`，負責處理三個路徑的請求（首頁、聯絡資訊頁、404）：
+
+```go
+{{#include ../code/04-templating/iterations/03/main.go:23:37}}
+```
+
+三個函數裡面都用到了在上面讀取的樣版檔案。
 
 <figure class="bordered-figure">
 <a href="/images/04/main-template.webp" target="_blank" rel="noopener noreferrer"><img src="/images/04/main-template.webp" /></a>
